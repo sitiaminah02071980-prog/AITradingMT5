@@ -27,7 +27,7 @@ object MT5Service {
 
     private fun getBridgeUrl(): String {
         val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        return prefs.getString(KEY_BRIDGE_URL, DEFAULT_BRIDGE_URL)
+        return prefs.getString(KEY_BRIDGE_URL, DEFAULT_BRIDGE_URL) ?: DEFAULT_BRIDGE_URL
     }
 
     private fun getRetrofit(bridgeUrl: String): Retrofit {
@@ -55,13 +55,13 @@ object MT5Service {
         fun getHealth(): Call<Map<String, String>>
     }
 
-    fun getSymbols(): List<Asset> {
+    suspend fun getSymbols(): List<Asset> {
         return withContext(Dispatchers.IO) {
             getApi().getSymbols().execute().body() ?: emptyList()
         }
     }
 
-    fun getSignals(): List<TradeSignal> {
+    suspend fun getSignals(): List<TradeSignal> {
         return withContext(Dispatchers.IO) {
             val symbols = listOf("BTC", "ETH", "SOL", "XRP", "ADA")
             val signals = mutableListOf<TradeSignal>()
@@ -73,7 +73,7 @@ object MT5Service {
         }
     }
 
-    fun getDaily(symbol: String): TradeSignal {
+    suspend fun getDaily(symbol: String): TradeSignal {
         return withContext(Dispatchers.IO) {
             getApi().getDaily(symbol).execute().body() ?: TradeSignal(symbol, "HOLD", 0.0, 0.0, 0.0, "Data tidak tersedia")
         }

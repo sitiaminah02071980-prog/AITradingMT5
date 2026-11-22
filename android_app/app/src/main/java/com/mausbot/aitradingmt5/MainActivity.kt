@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.mausbot.aitradingmt5.databinding.ActivityMainBinding
+import com.mausbot.aitradingmt5.ui.AssetAdapter
 
 class MainActivity : AppCompatActivity() {
 
