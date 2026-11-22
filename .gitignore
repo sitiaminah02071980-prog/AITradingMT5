@@ -1,0 +1,29 @@
+# Android
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+*.keystore
+
+# Python
+__pycache__/
+*.py[c]
+*.pyc
+*.pyo
+.env
+.env.*.local
+venv/
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+*.swp
+*.swo
