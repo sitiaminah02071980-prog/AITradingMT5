@@ -19,13 +19,54 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Debug runner environment
+        run: |
+          echo "=== ANDROID_HOME=$ANDROID_HOME ==="
+          echo "=== ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT ==="
+          echo "=== Checking /usr/local/lib/android/sdk/ ==="
+          ls -la /usr/local/lib/android/sdk/ 2>/dev/null || echo "NOT FOUND"
+          echo "=== Checking /opt/android-sdk/ ==="
+          ls -la /opt/android-sdk/ 2>/dev/null || echo "NOT FOUND"
+          echo "=== Checking $HOME/android-sdk/ ==="
+          ls -la $HOME/android-sdk/ 2>/dev/null || echo "NOT FOUND"
+          echo "=== Finding sdkmanager ==="
+          find /usr/local /opt $HOME -name sdkmanager -type f 2>/dev/null | head -10
+          echo "=== Java version ==="
+          java -version 2>&1
+          echo "=== JAVA_HOME=$JAVA_HOME ==="
+
+      - name: Setup Android SDK (use pre-installed or download)
+        run: |
+          # Try pre-installed locations first
+          if [ -d "/usr/local/lib/android/sdk/cmdline-tools/latest/bin" ]; then
+            echo "Using pre-installed SDK at /usr/local/lib/android/sdk"
+            echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
+            echo "/usr/local/lib/android/sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
+          elif [ -d "$HOME/android-sdk/cmdline-tools/bin" ]; then
+            echo "Using SDK at $HOME/android-sdk"
+            echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
+            echo "$HOME/android-sdk/cmdline-tools/bin" >> $GITHUB_PATH
+          else
+            echo "No pre-installed SDK found, downloading commandlinetools..."
+            SDK_DIR=$HOME/android-sdk
+            mkdir -p $SDK_DIR
+            cd $SDK_DIR
+            sudo apt-get update -qq && sudo apt-get install -y -qq wget unzip
+            wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+            unzip -o commandlinetools-linux-11076708_latest.zip -d $SDK_DIR
+            echo "ANDROID_HOME=$SDK_DIR" >> $GITHUB_ENV
+            SDKMANAGER_PATH=$(find $SDK_DIR -name sdkmanager -type f | head -1)
+            SDK_BIN=$(dirname "$SDKMANAGER_PATH")
+            echo "$SDK_BIN" >> $GITHUB_PATH
+            echo "Found sdkmanager at: $SDKMANAGER_PATH"
+          fi
 
       - name: Accept Android licenses
         run: |
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "PATH check: $(which sdkmanager)"
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
       - name: Install Gradle
         run: |
