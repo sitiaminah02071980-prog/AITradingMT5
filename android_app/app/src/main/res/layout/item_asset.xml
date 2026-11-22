@@ -32,7 +32,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{\`Bid: ${asset.bid}\`}"
                 android:textSize="14sp" />
 
             <TextView
@@ -40,7 +39,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{\`Ask: ${asset.ask}\`}"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -54,7 +52,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{\`High: ${asset.bidHigh}\`}"
                 android:textSize="14sp" />
 
             <TextView
@@ -62,7 +59,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{\`Low: ${asset.bidLow}\`}"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
