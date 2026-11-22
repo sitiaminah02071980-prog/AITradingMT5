@@ -48,6 +48,7 @@ class AssetAdapter(private val items: List<Any>) : RecyclerView.Adapter<Recycler
 
     class AssetViewHolder(private val binding: ItemAssetBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(asset: Asset) {
+            binding.asset = asset
             binding.tvSymbol.text = asset.symbol
             binding.tvBid.text = "Bid: ${asset.bid}"
             binding.tvAsk.text = "Ask: ${asset.ask}"
@@ -58,6 +59,7 @@ class AssetAdapter(private val items: List<Any>) : RecyclerView.Adapter<Recycler
 
     class SignalViewHolder(private val binding: ItemSignalBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(signal: TradeSignal) {
+            binding.signal = signal
             binding.tvSymbol.text = signal.symbol
             binding.tvSignal.text = "Sinyal: ${signal.signal}"
             binding.tvBid.text = "Bid: ${signal.bid}"

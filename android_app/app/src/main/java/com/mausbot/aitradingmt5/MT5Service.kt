@@ -37,8 +37,8 @@ object MT5Service {
             .build()
     }
 
-    private val api: MT5Service.Mt5Api by lazy {
-        getRetrofit(getBridgeUrl()).create(Mt5Api::class.java)
+    private fun getApi(): Mt5Api {
+        return getRetrofit(getBridgeUrl()).create(Mt5Api::class.java)
     }
 
     interface Mt5Api {
@@ -57,7 +57,7 @@ object MT5Service {
 
     fun getSymbols(): List<Asset> {
         return withContext(Dispatchers.IO) {
-            api.getSymbols().execute().body() ?: emptyList()
+            getApi().getSymbols().execute().body() ?: emptyList()
         }
     }
 
@@ -66,7 +66,7 @@ object MT5Service {
             val symbols = listOf("BTC", "ETH", "SOL", "XRP", "ADA")
             val signals = mutableListOf<TradeSignal>()
             for (s in symbols) {
-                val sig = api.getSignal(s).execute().body()
+                val sig = getApi().getSignal(s).execute().body()
                 if (sig != null) signals.add(sig)
             }
             signals
@@ -75,7 +75,7 @@ object MT5Service {
 
     fun getDaily(symbol: String): TradeSignal {
         return withContext(Dispatchers.IO) {
-            api.getDaily(symbol).execute().body() ?: TradeSignal(symbol, "HOLD", 0.0, 0.0, 0.0, "Data tidak tersedia")
+            getApi().getDaily(symbol).execute().body() ?: TradeSignal(symbol, "HOLD", 0.0, 0.0, 0.0, "Data tidak tersedia")
         }
     }
 
