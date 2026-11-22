@@ -22,12 +22,17 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Berikan izin gradlew
-        run: chmod +x android_app/gradlew
+      - name: Instal Gradle
+        run: |
+          GRADLE_VERSION=8.2.0
+          wget -q https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
+          unzip -q gradle-${GRADLE_VERSION}-bin.zip
+          echo "GRADLE_HOME=$PWD/gradle-${GRADLE_VERSION}" >> $GITHUB_ENV
+          echo "$PWD/gradle-${GRADLE_VERSION}/bin" >> $GITHUB_PATH
 
       - name: Build APK
         working-directory: android_app
-        run: ./gradlew assembleDebug
+        run: gradle assembleDebug
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
