@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AI Trading MT5</string>
+    <string name="subtitle_assets">Daftar Simbol Crypto</string>
+    <string name="subtitle_signals">Sinyal Trading</string>
+</resources>
