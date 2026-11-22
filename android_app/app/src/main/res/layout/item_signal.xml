@@ -33,7 +33,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{\`Sinyal: ${signal.signal}\`}"
+                android:text="@{`Sinyal: ${signal.signal}`}"
                 android:textSize="14sp"
                 android:gravity="end" />
         </LinearLayout>
@@ -48,7 +48,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{\`Bid: ${signal.bid}\`}"
+                android:text="@{`Bid: ${signal.bid}`}"
                 android:textSize="14sp" />
 
             <TextView
@@ -56,7 +56,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{\`High: ${signal.bidHigh}\`}"
+                android:text="@{`High: ${signal.bidHigh}`}"
                 android:textSize="14sp" />
 
             <TextView
@@ -64,7 +64,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{\`Low: ${signal.bidLow}\`}"
+                android:text="@{`Low: ${signal.bidLow}`}"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -75,5 +75,14 @@
             android:text="@{signal.reason}"
             android:textSize="13sp"
             android:textColor="#666666" />
+
+        <TextView
+            android:id="@+id/tvAIAnalysis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{signal.aiAnalysis}"
+            android:textSize="12sp"
+            android:textColor="#1976D2"
+            android:visibility="gone" />
     </LinearLayout>
 </layout>

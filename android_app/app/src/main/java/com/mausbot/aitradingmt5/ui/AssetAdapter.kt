@@ -49,21 +49,27 @@ class AssetAdapter(private val items: List<Any>) : RecyclerView.Adapter<Recycler
     class AssetViewHolder(private val binding: ItemAssetBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(asset: Asset) {
             binding.tvSymbol.text = asset.symbol
-            binding.tvBid.text = "Bid: " + asset.bid
-            binding.tvAsk.text = "Ask: " + asset.ask
-            binding.tvHigh.text = "High: " + asset.bidHigh
-            binding.tvLow.text = "Low: " + asset.bidLow
+            binding.tvBid.text = "Bid: ${asset.bid}"
+            binding.tvAsk.text = "Ask: ${asset.ask}"
+            binding.tvHigh.text = "High: ${asset.bidHigh}"
+            binding.tvLow.text = "Low: ${asset.bidLow}"
         }
     }
 
     class SignalViewHolder(private val binding: ItemSignalBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(signal: TradeSignal) {
             binding.tvSymbol.text = signal.symbol
-            binding.tvSignal.text = "Sinyal: " + signal.signal
-            binding.tvBid.text = "Bid: " + signal.bid
-            binding.tvHigh.text = "High: " + signal.bidHigh
-            binding.tvLow.text = "Low: " + signal.bidLow
+            binding.tvSignal.text = "Sinyal: ${signal.signal}"
+            binding.tvBid.text = "Bid: ${signal.bid}"
+            binding.tvHigh.text = "High: ${signal.bidHigh}"
+            binding.tvLow.text = "Low: ${signal.bidLow}"
             binding.tvReason.text = signal.reason
+            if (signal.aiAnalysis.isNotEmpty()) {
+                binding.tvAIAnalysis.visibility = android.view.View.VISIBLE
+                binding.tvAIAnalysis.text = "AI: ${signal.aiAnalysis}"
+            } else {
+                binding.tvAIAnalysis.visibility = android.view.View.GONE
+            }
         }
     }
 }

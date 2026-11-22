@@ -7,5 +7,6 @@ data class TradeSignal(
     val bidHigh: Double = 0.0,
     val bidLow: Double = 0.0,
     val reason: String = "",
-    val lotSize: Double = 0.01
+    val lotSize: Double = 0.01,
+    val aiAnalysis: String = ""
 )
