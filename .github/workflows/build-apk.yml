@@ -20,9 +20,13 @@ jobs:
           java-version: 17
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+        run: |
+          echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
+          echo "/usr/local/lib/android/sdk/cmdline-tools/16.0/bin" >> $GITHUB_PATH
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
-      - name: Instal Gradle
+      - name: Install Gradle
         run: |
           GRADLE_VERSION=8.2.0
           wget -q https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
