@@ -51,7 +51,7 @@ jobs:
             SDK_DIR=$HOME/android-sdk
             mkdir -p $SDK_DIR
             cd $SDK_DIR
-            sudo apt-get update -qq && sudo apt-get install -y -qq wget unzip
+            apt-get update -qq && apt-get install -y -qq wget unzip
             wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
             unzip -o commandlinetools-linux-11076708_latest.zip -d $SDK_DIR
             echo "ANDROID_HOME=$SDK_DIR" >> $GITHUB_ENV
@@ -70,7 +70,7 @@ jobs:
 
       - name: Install Gradle
         run: |
-          sudo apt-get install -y -qq wget unzip
+          apt-get update -qq && apt-get install -y -qq wget unzip
           GRADLE_VERSION=8.2.0
           wget -q https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
           unzip -q gradle-${GRADLE_VERSION}-bin.zip
