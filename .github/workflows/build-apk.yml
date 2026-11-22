@@ -21,59 +21,14 @@ jobs:
 
       - name: Setup Android SDK
         run: |
-          set -e
           SDK_DIR=$HOME/android-sdk
-          mkdir -p $SDK_DIR/cmdline-tools
-          cd $SDK_DIR/cmdline-tools
-
-          # Ensure unzip is available
-          if ! command -v unzip &> /dev/null; then
-            sudo apt-get update -qq && sudo apt-get install -y -qq unzip
-          fi
-
-          # Download command line tools
-          curl -fSL -o cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
-          echo "=== Downloaded file ==="
-          file cmdline-tools.zip
-          ls -la cmdline-tools.zip
-
-          # Extract
-          echo "=== Extracting ==="
-          unzip -o cmdline-tools.zip
-
-          echo "=== Directory structure ==="
-          find $SDK_DIR -maxdepth 5 -type d | sort
-
-          echo "=== Looking for sdkmanager ==="
-          find $SDK_DIR -name sdkmanager -type f
-
-          # Locate sdkmanager directory
-          SDK_BIN=""
-          if [ -f $SDK_DIR/cmdline-tools/bin/sdkmanager ]; then
-            SDK_BIN=$SDK_DIR/cmdline-tools/bin
-          elif [ -f $SDK_DIR/cmdline-tools/cmdline-tools/bin/sdkmanager ]; then
-            mv $SDK_DIR/cmdline-tools/cmdline-tools/* $SDK_DIR/cmdline-tools/
-            rmdir $SDK_DIR/cmdline-tools/cmdline-tools
-            SDK_BIN=$SDK_DIR/cmdline-tools/bin
-          else
-            SDK_BIN=$(find $SDK_DIR -name sdkmanager -type f | head -1 | xargs dirname)
-          fi
-
-          if [ -z "$SDK_BIN" ]; then
-            echo "ERROR: sdkmanager not found!"
-            exit 1
-          fi
-
-          echo "=== SDK bin dir: $SDK_BIN ==="
+          mkdir -p $SDK_DIR
+          cd $SDK_DIR
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+          unzip -o commandlinetools-linux-11076708_latest.zip
           echo "ANDROID_HOME=$SDK_DIR" >> $GITHUB_ENV
-          echo "$SDK_BIN" >> $GITHUB_PATH
-
-          chmod +x $SDK_BIN/sdkmanager
-
-          echo "=== Accepting licenses ==="
+          echo "$SDK_DIR/cmdline-tools/bin" >> $GITHUB_PATH
           yes | sdkmanager --licenses
-
-          echo "=== Installing packages ==="
           sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
       - name: Install Gradle
